@@ -228,7 +228,7 @@ let rec int_list_to_string = function
   | [x] -> string_of_int x
   | x :: xs -> string_of_int x ^ " " ^ int_list_to_string xs
 
-let () =
+let exercise_1 =
   print_endline "1-a";
   print_endline "fact 5:";
   print_endline (string_of_int (fact 5));  (* Expected: 120 *)
@@ -237,10 +237,16 @@ let () =
   print_endline "nb_bit_pos 5:";
   print_endline (string_of_int (nb_bit_pos 5));  (* Expected: 2 *)
   print_endline "====================";
+;;
+
+let exercise_2 =
   print_endline "2";
   print_endline "fibo 5:";
   print_endline (string_of_int (fibo 5));  (* Expected: 5 *)
   print_endline "====================";
+;;
+
+let exercise_3 =
   print_endline "3-a";
   print_endline "palindrome \"madam\":";
   print_endline (string_of_bool (palindrome "madam"));  (* Expected: true *)
@@ -259,6 +265,9 @@ let () =
   print_endline "factor \"world\" \"hello\":";
   print_endline (string_of_bool (factor "world" "hello"));  (* Expected: false *)
   print_endline "====================";
+;;
+
+let exercise_4 =
   print_endline "4-a";
   print_endline "(l1, l2) = split [1; 2; 3; 4; 5]";
   let (l1, l2) = split [1; 2; 3; 4; 5] in
@@ -268,17 +277,16 @@ let () =
   print_endline (int_list_to_string l2);  (* Expected: 2 4 *)
   print_endline "====================";
   print_endline "4-b";
-  print_endline "l = merge [1; 3; 5] [2; 4]";
-  let l = merge [1; 3; 5] [2; 4] in
-  print_endline "l:";
-  print_endline (int_list_to_string l);  (* Expected: 1 2 3 4 5 *)
+  print_endline "merge [1; 3; 5] [2; 4]:";
+  print_endline (int_list_to_string (merge [1; 3; 5] [2; 4]));  (* Expected: 1 2 3 4 5 *)
   print_endline "====================";
   print_endline "4-c";
-  print_endline "l = sort [3; 1; 5; 2; 4]";
-  let l = sort [3; 1; 5; 2; 4] in
-  print_endline "l:";
-  print_endline (int_list_to_string l);  (* Expected: 1 2 3 4 5 *)
+  print_endline "sort [3; 1; 5; 2; 4]:";
+  print_endline (int_list_to_string (sort [3; 1; 5; 2; 4]));  (* Expected: 1 2 3 4 5 *)
   print_endline "====================";
+;;
+
+let exercise_5 =
   print_endline "5-a";
   print_endline "square_sum_rec [1; 2; 3]:";
   print_endline (string_of_int (square_sum_rec [1; 2; 3]));  (* Expected: 14 *)
@@ -295,17 +303,18 @@ let () =
   print_endline "find_opt_5_b_lib 4 [1; 2; 3] (None will be printed as -1):";
   print_endline (string_of_int (match find_opt_5_b_lib 4 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: -1 *)
   print_endline "====================";
+;;
+
+let exercise_6 =
   print_endline "6";
-  print_endline "l = rev_6 [1; 2; 3]";
-  let l = rev_6 [1; 2; 3] in
-  print_endline "l:";
-  print_endline (int_list_to_string l);  (* Expected: 3 2 1 *)
-  print_endline "";
-  print_endline "l = map_6 (fun x -> x * x) [1; 2; 3]";
-  let l = map_6 (fun x -> x * x) [1; 2; 3] in
-  print_endline "l:";
-  print_endline (int_list_to_string l);  (* Expected: 1 4 9 *)
+  print_endline "rev_6 [1; 2; 3]:";
+  print_endline (int_list_to_string (rev_6 [1; 2; 3]));  (* Expected: 3 2 1 *)
+  print_endline "map_6 (fun x -> x * x) [1; 2; 3]:";
+  print_endline (int_list_to_string (map_6 (fun x -> x * x) [1; 2; 3]));  (* Expected: 1 4 9 *)
   print_endline "====================";
+;;
+
+let exercise_7 =
   print_endline "7-a";
   print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
@@ -372,3 +381,13 @@ let () =
     print_endline "not run this line"
   with
     Failure s -> print_endline s  (* Expected: Index out of bounds *)
+;;
+
+let () =
+  exercise_1;
+  exercise_2;
+  exercise_3;
+  exercise_4;
+  exercise_5;
+  exercise_6;
+  exercise_7;
