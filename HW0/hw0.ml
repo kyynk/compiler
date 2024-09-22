@@ -125,11 +125,14 @@ let map_6 f l =
     | x::xs -> aux (f x :: acc) xs
   in aux [] l
 (* ------------------------------------------------------- *)
-(* 7-a *)
+
 type 'a seq =
   | Elt of 'a
   | Seq of 'a seq * 'a seq
 
+let (@@) x y = Seq(x, y)
+
+(* 7-a *)
 (* hd *)
 let rec hd = function
   | Elt x -> x
@@ -216,87 +219,134 @@ let rec int_list_to_string = function
 
 let () =
   print_endline "1-a";
+  print_endline "fact 5:";
   print_endline (string_of_int (fact 5));  (* Expected: 120 *)
   print_endline "====================";
   print_endline "1-b";
+  print_endline "nb_bit_pos 5:";
   print_endline (string_of_int (nb_bit_pos 5));  (* Expected: 2 *)
   print_endline "====================";
   print_endline "2";
+  print_endline "fibo 5:";
   print_endline (string_of_int (fibo 5));  (* Expected: 5 *)
   print_endline "====================";
   print_endline "3-a";
+  print_endline "palindrome \"madam\":";
   print_endline (string_of_bool (palindrome "madam"));  (* Expected: true *)
+  print_endline "palindrome \"hello\":";
   print_endline (string_of_bool (palindrome "hello"));  (* Expected: false *)
   print_endline "====================";
   print_endline "3-b";
+  print_endline "compare \"hello\" \"world\":";
   print_endline (string_of_bool (compare "hello" "world"));  (* Expected: true *)
+  print_endline "compare \"world\" \"hello\":";
   print_endline (string_of_bool (compare "world" "hello"));  (* Expected: false *)
   print_endline "====================";
   print_endline "3-c";
+  print_endline "factor \"world\" \"hello world\":";
   print_endline (string_of_bool (factor "world" "hello world"));  (* Expected: true *)
+  print_endline "factor \"world\" \"hello\":";
   print_endline (string_of_bool (factor "world" "hello"));  (* Expected: false *)
   print_endline "====================";
   print_endline "4-a";
+  print_endline "(l1, l2) = split [1; 2; 3; 4; 5]";
   let (l1, l2) = split [1; 2; 3; 4; 5] in
+  print_endline "l1:";
   print_endline (int_list_to_string l1);  (* Expected: 1 3 5 *)
+  print_endline "l2:";
   print_endline (int_list_to_string l2);  (* Expected: 2 4 *)
   print_endline "====================";
   print_endline "4-b";
+  print_endline "l = merge [1; 3; 5] [2; 4]";
   let l = merge [1; 3; 5] [2; 4] in
+  print_endline "l:";
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 4 5 *)
   print_endline "====================";
   print_endline "4-c";
+  print_endline "l = sort [3; 1; 5; 2; 4]";
   let l = sort [3; 1; 5; 2; 4] in
+  print_endline "l:";
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 4 5 *)
   print_endline "====================";
   print_endline "5-a";
+  print_endline "square_sum [1; 2; 3]:";
   print_endline (string_of_int (square_sum [1; 2; 3]));  (* Expected: 14 *)
   print_endline "====================";
   print_endline "5-b";
+  print_endline "find_opt_5_b 2 [1; 2; 3]:";
   print_endline (string_of_int (match find_opt_5_b 2 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: 1 *)
+  print_endline "find_opt_5_b 4 [1; 2; 3] (None will be printed as -1):";
   print_endline (string_of_int (match find_opt_5_b 4 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: -1 *)
   print_endline "====================";
   print_endline "6";
+  print_endline "l = map_6 (fun x -> x * x) [1; 2; 3]";
   let l = map_6 (fun x -> x * x) [1; 2; 3] in
+  print_endline "l:";
   print_endline (int_list_to_string l);  (* Expected: 1 4 9 *)
   print_endline "====================";
   print_endline "7-a";
+  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "hd seq:";
   print_endline (string_of_int (hd seq));  (* Expected: 1 *)
+  print_endline "hd (tl seq):";
   print_endline (string_of_int (hd (tl seq)));  (* Expected: 2 *)
+  print_endline "mem 2 seq:";
   print_endline (string_of_bool (mem 2 seq));  (* Expected: true *)
+  print_endline "mem 4 seq:";
   print_endline (string_of_bool (mem 4 seq));  (* Expected: false *)
+
+  print_endline "";
+  print_endline "reverse seq -> 3 2 1";
   let seq = rev seq in
+  print_endline "hd seq:";
   print_endline (string_of_int (hd seq));  (* Expected: 3 *)
+  print_endline "hd (tl seq):";
   print_endline (string_of_int (hd (tl seq)));  (* Expected: 2 *)
+
+  print_endline "";
+  print_endline "map (fun x -> x * x) seq -> 9 4 1";
   let seq = map (fun x -> x * x) seq in
+  print_endline "hd seq:";
   print_endline (string_of_int (hd seq));  (* Expected: 9 *)
 
+  print_endline "fold_left (+) 0 seq:";
   let sum = fold_left (+) 0 seq in
   print_endline (string_of_int sum);  (* Expected: 14 *)
+  print_endline "fold_right (+) 0 seq:";
   let sum = fold_right (+) seq 0 in
   print_endline (string_of_int sum);  (* Expected: 14 *)
   print_endline "====================";
   print_endline "7-b";
+  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "seq2list seq:";
   let l = seq2list seq in
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 *)
+  print_endline "seq2list_tail_recursive seq:";
   let l = seq2list_tail_recursive seq in
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 *)
   print_endline "====================";
   print_endline "7-c";
+  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
-  print_endline (string_of_int (seq_length seq));  (* Expected: 3 *)
+  print_endline "find_opt 1 seq:";
   print_endline (string_of_int (match find_opt 1 seq with Some x -> x | None -> -1));  (* Expected: 0 *)
-  print_endline (string_of_int (match find_opt 3 seq with Some x -> x | None -> -1));  (* Expected: 2 *)
+  print_endline "find_opt 4 seq (None will be printed as -1):";
+  print_endline (string_of_int (match find_opt 4 seq with Some x -> x | None -> -1));  (* Expected: -1 *)
   print_endline "====================";
   print_endline "7-d";
+  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "nth seq 0:";
   print_endline (string_of_int (nth seq 0));  (* Expected: 1 *)
+  print_endline "nth seq 1:";
   print_endline (string_of_int (nth seq 1));  (* Expected: 2 *)
+  print_endline "nth seq 2:";
   print_endline (string_of_int (nth seq 2));  (* Expected: 3 *)
+  print_endline "nth seq 3 (Exception will be printed as Index out of bounds):";
   try
-    let _ = nth seq 4 in
+    let _ = nth seq 3 in
     print_endline "not run this line"
   with
-    Failure s -> print_endline s
+    Failure s -> print_endline s  (* Expected: Index out of bounds *)
