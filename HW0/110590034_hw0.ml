@@ -182,15 +182,24 @@ let rec fold_right f seq acc =
   | Seq (s1, s2) -> fold_right f s1 (fold_right f s2 acc)
 
 (* 7-b *)
-let rec seq2list = function
+let rec seq2list seq =
+  match seq with
   | Elt x -> [x]
-  | Seq (s1, s2) -> seq2list s1 @ seq2list s2
+  | Seq (s1, s2) ->
+      let l1 = seq2list s1 in
+      let l2 = seq2list s2 in
+      let rec append lst1 lst2 =
+        match lst1 with
+        | [] -> lst2
+        | x :: xs -> x :: append xs lst2
+      in
+      append l1 l2
 
 let seq2list_tail_recursive seq =
-    let rec aux seq acc = match seq with
-      | Elt x -> x :: acc
-      | Seq (s1, s2) -> aux s1 (aux s2 acc)
-    in aux seq []
+  let rec aux seq acc = match seq with
+    | Elt x -> x :: acc
+    | Seq (s1, s2) -> aux s1 (aux s2 acc)
+  in aux seq []
 
 (* 7-c *)
 let rec seq_length = function
