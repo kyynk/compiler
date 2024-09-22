@@ -103,17 +103,28 @@ let rec sort lst = match lst with
     merge (sort l1) (sort l2)
 (* ------------------------------------------------------- *)
 (* 5-a *)
-let square_sum l = List.fold_left (fun acc x -> acc + x * x) 0 l
+let rec square_sum_rec l = match l with
+  | [] -> 0
+  | x::xs -> x * x + square_sum_rec xs
+
+let square_sum_lib l = List.fold_left (fun acc x -> acc + x * x) 0 l
 
 (* 5-b *)
-let rec find_opt_5_b x l =
+let rec find_opt_5_b_rec x l =
   let rec aux i = function
     | [] -> None
     | y::ys -> if x = y then Some i else aux (i + 1) ys
   in aux 0 l
+
+let find_opt_5_b_lib x l =
+  try
+    let indexed_list = List.mapi (fun i y -> (i, y)) l in
+    let (i, _) = List.find (fun (_, y) -> y = x) indexed_list in
+    Some i
+  with Not_found -> None
 (* ------------------------------------------------------- *)
 (* 6 *)
-let rev l =
+let rev_6 l =
   let rec aux acc = function
     | [] -> acc
     | x::xs -> aux (x::acc) xs
@@ -121,7 +132,7 @@ let rev l =
 
 let map_6 f l =
   let rec aux acc = function
-    | [] -> rev acc
+    | [] -> rev_6 acc
     | x::xs -> aux (f x :: acc) xs
   in aux [] l
 (* ------------------------------------------------------- *)
@@ -269,16 +280,27 @@ let () =
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 4 5 *)
   print_endline "====================";
   print_endline "5-a";
-  print_endline "square_sum [1; 2; 3]:";
-  print_endline (string_of_int (square_sum [1; 2; 3]));  (* Expected: 14 *)
+  print_endline "square_sum_rec [1; 2; 3]:";
+  print_endline (string_of_int (square_sum_rec [1; 2; 3]));  (* Expected: 14 *)
+  print_endline "square_sum_lib [1; 2; 3]:";
+  print_endline (string_of_int (square_sum_lib [1; 2; 3]));  (* Expected: 14 *)
   print_endline "====================";
   print_endline "5-b";
-  print_endline "find_opt_5_b 2 [1; 2; 3]:";
-  print_endline (string_of_int (match find_opt_5_b 2 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: 1 *)
-  print_endline "find_opt_5_b 4 [1; 2; 3] (None will be printed as -1):";
-  print_endline (string_of_int (match find_opt_5_b 4 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: -1 *)
+  print_endline "find_opt_5_b_rec 2 [1; 2; 3]:";
+  print_endline (string_of_int (match find_opt_5_b_rec 2 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: 1 *)
+  print_endline "find_opt_5_b_rec 4 [1; 2; 3] (None will be printed as -1):";
+  print_endline (string_of_int (match find_opt_5_b_rec 4 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: -1 *)
+  print_endline "find_opt_5_b_lib 2 [1; 2; 3]:";
+  print_endline (string_of_int (match find_opt_5_b_lib 2 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: 1 *)
+  print_endline "find_opt_5_b_lib 4 [1; 2; 3] (None will be printed as -1):";
+  print_endline (string_of_int (match find_opt_5_b_lib 4 [1; 2; 3] with Some i -> i | None -> -1));  (* Expected: -1 *)
   print_endline "====================";
   print_endline "6";
+  print_endline "l = rev_6 [1; 2; 3]";
+  let l = rev_6 [1; 2; 3] in
+  print_endline "l:";
+  print_endline (int_list_to_string l);  (* Expected: 3 2 1 *)
+  print_endline "";
   print_endline "l = map_6 (fun x -> x * x) [1; 2; 3]";
   let l = map_6 (fun x -> x * x) [1; 2; 3] in
   print_endline "l:";
