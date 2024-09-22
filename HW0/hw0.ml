@@ -359,7 +359,7 @@ let () =
   print_endline "====================";
   print_endline "7-d";
   print_endline "seq = 1, 2, 3";
-  let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  let seq = Elt 1 @@ (Elt 2 @@ Elt 3) in
   print_endline "nth seq 0:";
   print_endline (string_of_int (nth seq 0));  (* Expected: 1 *)
   print_endline "nth seq 1:";
