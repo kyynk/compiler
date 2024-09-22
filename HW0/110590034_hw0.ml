@@ -228,6 +228,13 @@ let rec int_list_to_string = function
   | [x] -> string_of_int x
   | x :: xs -> string_of_int x ^ " " ^ int_list_to_string xs
 
+let rec print_seq s =
+  let rec seq_to_string = function
+    | Elt x -> string_of_int x
+    | Seq (s1, s2) -> seq_to_string s1 ^ " " ^ seq_to_string s2
+  in
+  print_endline (seq_to_string s)
+
 let exercise_1 =
   print_endline "1-a";
   print_endline "fact 5:";
@@ -316,41 +323,30 @@ let exercise_6 =
 
 let exercise_7 =
   print_endline "7-a";
-  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "seq:";
+  print_seq seq;
   print_endline "hd seq:";
   print_endline (string_of_int (hd seq));  (* Expected: 1 *)
-  print_endline "hd (tl seq):";
-  print_endline (string_of_int (hd (tl seq)));  (* Expected: 2 *)
+  print_endline "tl seq:";
+  print_seq (tl seq);  (* Expected: 2 3 *)
   print_endline "mem 2 seq:";
   print_endline (string_of_bool (mem 2 seq));  (* Expected: true *)
   print_endline "mem 4 seq:";
   print_endline (string_of_bool (mem 4 seq));  (* Expected: false *)
-
-  print_endline "";
-  print_endline "reverse seq -> 3 2 1";
-  let seq = rev seq in
-  print_endline "hd seq:";
-  print_endline (string_of_int (hd seq));  (* Expected: 3 *)
-  print_endline "hd (tl seq):";
-  print_endline (string_of_int (hd (tl seq)));  (* Expected: 2 *)
-
-  print_endline "";
-  print_endline "map (fun x -> x * x) seq -> 9 4 1";
-  let seq = map (fun x -> x * x) seq in
-  print_endline "hd seq:";
-  print_endline (string_of_int (hd seq));  (* Expected: 9 *)
-
+  print_endline "rev seq:";
+  print_seq (rev seq);  (* Expected: 3 2 1 *)
+  print_endline "map (fun x -> x * x) seq:";
+  print_seq (map (fun x -> x * x) seq);  (* Expected: 1 4 9 *)
   print_endline "fold_left (+) 0 seq:";
-  let sum = fold_left (+) 0 seq in
-  print_endline (string_of_int sum);  (* Expected: 14 *)
-  print_endline "fold_right (+) 0 seq:";
-  let sum = fold_right (+) seq 0 in
-  print_endline (string_of_int sum);  (* Expected: 14 *)
+  print_endline (string_of_int (fold_left (+) 0 seq));  (* Expected: 14 *)
+  print_endline "fold_right (+) seq 1:";
+  print_endline (string_of_int (fold_right (+) seq 1));  (* Expected: 15 *)
   print_endline "====================";
   print_endline "7-b";
-  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "seq:";
+  print_seq seq;
   print_endline "seq2list seq:";
   let l = seq2list seq in
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 *)
@@ -359,16 +355,18 @@ let exercise_7 =
   print_endline (int_list_to_string l);  (* Expected: 1 2 3 *)
   print_endline "====================";
   print_endline "7-c";
-  print_endline "seq = 1, 2, 3";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
+  print_endline "seq:";
+  print_seq seq;
   print_endline "find_opt 1 seq:";
   print_endline (string_of_int (match find_opt 1 seq with Some x -> x | None -> -1));  (* Expected: 0 *)
   print_endline "find_opt 4 seq (None will be printed as -1):";
   print_endline (string_of_int (match find_opt 4 seq with Some x -> x | None -> -1));  (* Expected: -1 *)
   print_endline "====================";
   print_endline "7-d";
-  print_endline "seq = 1, 2, 3";
   let seq = Elt 1 @@ (Elt 2 @@ Elt 3) in
+  print_endline "seq:";
+  print_seq seq;
   print_endline "nth seq 0:";
   print_endline (string_of_int (nth seq 0));  (* Expected: 1 *)
   print_endline "nth seq 1:";
