@@ -166,34 +166,34 @@ let exercise_7_new_structure =
   print_endline "seq:";
   print_seq seq;
   print_endline "nth seq 5:";
-  print_endline (string_of_int (nth seq 5));
+  print_endline (string_of_int (nth seq 5));  (* Expected: 7 *)
   try
     print_endline "nth seq 6:";
     print_endline (string_of_int (nth seq 6));  (* Expected: not run this line *)
   with
     Failure s -> print_endline s;  (* Expected: Index out of bounds *)
   print_endline "hd seq:";
-  print_endline (string_of_int (hd seq));
+  print_endline (string_of_int (hd seq));  (* Expected: 3 *)
   print_endline "tl seq:";
-  print_seq (tl seq);
+  print_seq (tl seq);  (* Expected: 2 1 9 8 7 *)
   print_endline "mem 3 seq:";
-  print_endline (string_of_bool (mem 3 seq));
+  print_endline (string_of_bool (mem 3 seq));  (* Expected: true *)
   print_endline "mem 4 seq:";
-  print_endline (string_of_bool (mem 4 seq));
+  print_endline (string_of_bool (mem 4 seq));  (* Expected: false *)
   print_endline "rev seq:";
-  print_seq (rev seq);
+  print_seq (rev seq);  (* Expected: 7 8 9 1 2 3 *)
   print_endline "map (fun x -> x * 2) seq:";
-  print_seq (map (fun x -> x * 2) seq);
-  print_endline "fold_left (+) 0 seq:";
-  print_endline (string_of_int (fold_left (+) 0 seq));
-  print_endline "fold_right (+) seq 0:";
-  print_endline (string_of_int (fold_right (+) seq 0));
+  print_seq (map (fun x -> x * 2) seq);  (* Expected: 6 4 2 18 16 14 *)
+  print_endline "fold_left (+) 0 seq:";  (* (((((0 + 3) + 2) + 1) + 9) + 8) + 7 = 30 *)
+  print_endline (string_of_int (fold_left (+) 0 seq));  (* Expected: 30 *)
+  print_endline "fold_right (-) seq 0:";  (* 3 - (2 - (1 - (9 - (8 - (7 - 0))))) = -6 *)
+  print_endline (string_of_int (fold_right (-) seq 0));  (* Expected: -6 *)
   print_endline "seq2list_tail_recursive seq:";
-  print_endline (int_list_to_string (seq2list_tail_recursive seq));
+  print_endline (int_list_to_string (seq2list_tail_recursive seq));  (* Expected: 3 2 1 9 8 7 *)
   print_endline "find_opt 3 seq:";
-  print_endline (match find_opt 3 seq with Some x -> string_of_int x | None -> "None");
+  print_endline (match find_opt 3 seq with Some x -> string_of_int x | None -> "None");  (* Expected: 0 *)
   print_endline "find_opt 4 seq (None will be printed as None):";
-  print_endline (match find_opt 4 seq with Some x -> string_of_int x | None -> "None")
+  print_endline (match find_opt 4 seq with Some x -> string_of_int x | None -> "None");  (* Expected: None *)
 ;;
 
 let () =

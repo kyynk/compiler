@@ -347,10 +347,10 @@ let exercise_7 =
   print_seq (rev seq);  (* Expected: 3 2 1 *)
   print_endline "map (fun x -> x * x) seq:";
   print_seq (map (fun x -> x * x) seq);  (* Expected: 1 4 9 *)
-  print_endline "fold_left (+) 0 seq:";
-  print_endline (string_of_int (fold_left (+) 0 seq));  (* Expected: 14 *)
-  print_endline "fold_right (+) seq 1:";
-  print_endline (string_of_int (fold_right (+) seq 1));  (* Expected: 15 *)
+  print_endline "fold_left (+) 0 seq:";  (* ((0 + 1) + 2) + 3 = 6 *)
+  print_endline (string_of_int (fold_left (+) 0 seq));  (* Expected: 6 *)
+  print_endline "fold_right (+) seq 1:";  (* 1 + (2 + (3 + 1)) = 7 *)
+  print_endline (string_of_int (fold_right (+) seq 1));  (* Expected: 7 *)
   print_endline "====================";
   print_endline "7-b";
   let seq = Seq (Elt 1, Seq (Elt 2, Elt 3)) in
