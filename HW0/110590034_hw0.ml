@@ -385,9 +385,9 @@ let exercise_7 =
   print_endline "nth seq 3 (Exception will be printed as Index out of bounds):";
   try
     let _ = nth seq 3 in
-    print_endline "not run this line"
+    print_endline "not run this line";
   with
-    Failure s -> print_endline s  (* Expected: Index out of bounds *)
+    Failure s -> print_endline s;  (* Expected: Index out of bounds *)
 ;;
 
 let () =
