@@ -1,9 +1,9 @@
-.section .data
+.data
     fmt_true:  .string "true\n"
     fmt_false: .string "false\n"
     fmt_int:   .string "%d\n"
 
-.section .text
+.text
     .globl main
 
 print_bool:

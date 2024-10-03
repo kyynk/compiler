@@ -1,7 +1,7 @@
-.section .data
+.data
     fmt: .string "n = %d\n"     # Format string for printf
 
-.section .text
+.text
     .globl main
 
 main:
