@@ -13,11 +13,9 @@ main:
     imulq %rdi, %rdi    # y = x * x
     movq %rdi, y(%rip)
 
-    # Load y and add x
+    # y + x
     movq y(%rip), %rsi
-    movq x(%rip), %rdi
-
-    addq %rdi, %rsi     # y + x
+    addq x(%rip), %rsi
 
     movq $fmt, %rdi
     xor %rax, %rax
