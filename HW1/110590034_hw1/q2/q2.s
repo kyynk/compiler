@@ -23,10 +23,10 @@ main:
 
     # 4 + 7 / 2
     xor %rax, %rax            # clear %rax for division
-    mov $7, %rax              # %rax = 7 (dividend)
+    mov $7, %rax              # %rax = 7 (dividend, low bits of dividend)
     xor %rdx, %rdx            # clear %rdx (important for idiv, high bits of dividend)
     mov $2, %rbx              # %rbx = 2 (divisor)
-    idiv %rbx                 # %rax = %rdx:%rax / %rbx = 7 / 2 = 3 (quotient)
+    idiv %rbx                 # %rax = %rdx:%rax / %rbx = 7 / 2 = 3 (quotient in %rax, remainder in %rdx)
     mov $4, %rsi              # %rsi = 4
     add %rax, %rsi            # %rsi = %rsi + %rax = 7
     mov $fmt, %rdi
@@ -47,4 +47,5 @@ main:
     xor %rax, %rax
     call printf
 
+    mov $0, %rax
     ret
