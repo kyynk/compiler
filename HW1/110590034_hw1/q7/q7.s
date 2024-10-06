@@ -261,7 +261,7 @@ f:
 
 for_loop:
     cmpl $15, %ecx         # compare j, N
-    jge end_for_loop       # if j >= N, end loop
+    je end_for_loop        # if j == N, end loop
 
     movl $1, %r10d         # col = 1
     sall %cl, %r10d        # col = 1 << j
@@ -285,10 +285,10 @@ for_loop:
     movl -24(%rbp), %ecx
 
     movl -4(%rbp), %r11d
-    imull $15, %r11d, %r11d    # i * N
+    imull $15, %r11d           # i * N
     addl %ecx, %r11d           # i * N + j
     movl m(,%r11,4), %r11d     # load m[i * N + j] to %r11d (x)
-    addl %eax, %r11d           # x + f(i + 1, c - col)
+    addl %eax, %r11d           # x = m[i * N + j] + f(i + 1, c - col)
 
     cmpl %r9d, %r11d           # if x > s
     jg update_s
@@ -306,7 +306,7 @@ update_s:
     jmp for_loop
 
 end_for_loop:
-    movl %r9d, memo(,%rax,4)    # memo[key] = s
+    movl %r9d, memo(,%r8,4)    # memo[key] = s
     jmp return_s
 
 return_s:
@@ -338,11 +338,12 @@ main:
     movl $32767, %esi
     call f
 
-    movq %rax, %rsi
+    movl %eax, %esi
     movq $fmt, %rdi
     xorq %rax, %rax
     call printf
 
+    popq %rbp
     xorq %rax, %rax
     ret
 
