@@ -24,7 +24,7 @@ isqrt_loop:
 
     addq $1, -8(%rbp)              # c++
 
-    # s = s + 2 * c + 1
+    # s += 2*c + 1
     leaq 1(-16(%rbp), -8(%rbp), 2), -16(%rbp)
 
     jmp isqrt_loop
