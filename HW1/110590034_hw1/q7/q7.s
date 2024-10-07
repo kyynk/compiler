@@ -332,10 +332,10 @@ main:
     movq %rsp, %rbp
     
     movl $0, %edi       # i = 0
-    # movl $1, %esi       # c = 1
-    # shll $15, %esi      # c = 1 << N
-    # subl $1, %esi       # c = 1 << N - 1
-    movl $32767, %esi
+    movl $1, %esi       # c = 1
+    sall $15, %esi      # c = 1 << N
+    subl $1, %esi       # c = 1 << N - 1
+    # movl $32767, %esi
     call f
 
     movl %eax, %esi
