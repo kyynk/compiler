@@ -97,29 +97,6 @@ let make_dfa (r : regexp) : autom =
   transitions q0;
   { start = q0; trans = !trans }
 
-(* Visualization with the dot tool *)
-let fprint_state fmt q =
-  Cset.iter (fun (c, i) ->
-    if c = '#' then Format.fprintf fmt "# "
-    else Format.fprintf fmt "%c%i " c i
-  ) q
-
-let fprint_transition fmt q c q' =
-  Format.fprintf fmt "\"%a\" -> \"%a\" [label=\"%c\"];@\n"
-    fprint_state q fprint_state q' c
-
-let fprint_autom fmt (a : autom) =
-  Format.fprintf fmt "digraph DFA {@\n";
-  Format.fprintf fmt " \"%a\" [ shape = \"rect\" ];@\n" fprint_state a.start;
-  Smap.iter (fun q cmap ->
-    Cmap.iter (fun c q' -> fprint_transition fmt q c q') cmap
-  ) a.trans;
-  Format.fprintf fmt "}@."
-
-let save_autom filename a =
-  let ch = open_out filename in
-  Format.fprintf (Format.formatter_of_out_channel ch) "%a" fprint_autom a;
-  close_out ch
 
 
 (* Exercise 1 Test*)
@@ -165,6 +142,29 @@ let () =
   print_endline "Exercise 3 passed."
 
 (* Exercise 4 Test*)
+(* Visualization with the dot tool *)
+let fprint_state fmt q =
+  Cset.iter (fun (c, i) ->
+    if c = '#' then Format.fprintf fmt "# " else Format.fprintf fmt "%c%i " c i) q
+
+let fprint_transition fmt q c q' =
+  Format.fprintf fmt "\"%a\" -> \"%a\" [label=\"%c\"];@\n"
+    fprint_state q
+    fprint_state q'
+    c
+
+let fprint_autom fmt a =
+  Format.fprintf fmt "digraph A {@\n";
+  Format.fprintf fmt " @[\"%a\" [ shape = \"rect\"];@\n" fprint_state a.start;
+  Smap.iter
+    (fun q t -> Cmap.iter (fun c q' -> fprint_transition fmt q c q') t)
+    a.trans;
+  Format.fprintf fmt "@]@\n}@."
+
+let save_autom filename a =
+  let ch = open_out filename in
+  Format.fprintf (Format.formatter_of_out_channel ch) "%a" fprint_autom a;
+  close_out ch
 (* (a|b)*a(a|b) *)
 let r = Concat (Star (Union (Character ('a', 1), Character ('b', 1))),
                 Concat (Character ('a', 2),
