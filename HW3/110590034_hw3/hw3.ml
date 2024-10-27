@@ -72,20 +72,22 @@ let eof = ('#', -1)
 
 let next_state (r : regexp) (q : Cset.t) (c : char) : Cset.t =
   Cset.fold (fun ci acc ->
-    if fst ci = c then Cset.union (follow ci r) acc else acc
+    if fst ci = c then Cset.union (follow ci r) acc
+    else acc
   ) q Cset.empty
 
 let make_dfa (r : regexp) : autom =
   let r = Concat (r, Character eof) in
   let trans = ref Smap.empty in
-
+  let empty_state = Cset.empty in
   (* calculate state transition *)
   let rec transitions q =
     if not (Smap.mem q !trans) then begin
       let char_map = 
         Cset.fold (fun (ch, _) cmap ->
           let q' = next_state r q ch in
-          if not (Cset.is_empty q') then Cmap.add ch q' cmap else cmap
+          if not (Cset.is_empty q') then Cmap.add ch q' cmap
+          else Cmap.add ch empty_state cmap  (* When the state is empty, add an empty state *)
         ) q Cmap.empty
       in
       trans := Smap.add q char_map !trans;
