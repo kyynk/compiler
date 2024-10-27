@@ -99,9 +99,31 @@ let make_dfa (r : regexp) : autom =
   transitions q0;
   { start = q0; trans = !trans }
 
+(* Exercise 5 *)
+(* Check if a state is accepting by checking for the presence of eof ('#') *)
+let is_accepting_state (state : Cset.t) : bool =
+  Cset.exists (fun (ch, _) -> ch = '#') state
+
+(* Recognize function to determine if a word is accepted by the DFA *)
+let recognize (a : autom) (word : string) : bool =
+  let rec aux current_state i =
+    if i = String.length word then
+      is_accepting_state current_state
+    else
+      let char = word.[i] in
+      match Smap.find_opt current_state a.trans with
+      | Some transitions -> (
+          match Cmap.find_opt char transitions with
+          | Some next_state -> aux next_state (i + 1)
+          | None -> false
+        )
+      | None -> false
+  in
+  aux a.start 0
 
 
-(* Exercise 1 Test*)
+
+(* Exercise 1 Test *)
 let () =
   let a = Character ('a', 0) in
   assert (not (null a));
@@ -111,7 +133,7 @@ let () =
   assert (not (null (Concat (a, Star a))));
   print_endline "Exercise 1 passed."
 
-(* Exercise 2 Test*)
+(* Exercise 2 Test *)
 let () =
   let ca = ('a', 0) and cb = ('b', 0) in
   let a = Character ca and b = Character cb in
@@ -127,7 +149,7 @@ let () =
   assert (Cset.cardinal (last (Concat (a, Star b))) = 2);
   print_endline "Exercise 2 passed."
 
-(* Exercise 3 Test*)
+(* Exercise 3 Test *)
 let () =
   let ca = ('a', 0) and cb = ('b', 0) in
   let a = Character ca and b = Character cb in
@@ -143,7 +165,7 @@ let () =
   assert (Cset.cardinal (follow ca r3) = 2);
   print_endline "Exercise 3 passed."
 
-(* Exercise 4 Test*)
+(* Exercise 4 Test *)
 (* Visualization with the dot tool *)
 let fprint_state fmt q =
   Cset.iter (fun (c, i) ->
@@ -175,3 +197,40 @@ let a = make_dfa r
 let () =
   save_autom "autom.dot" a;
   print_endline "Exercise 4."
+
+(* Exercise 5 Test *)
+(* positive tests *)
+let () = assert (recognize a "aa")
+let () = assert (recognize a "ab")
+let () = assert (recognize a "abababaab")
+let () = assert (recognize a "babababab")
+let () = assert (recognize a (String.make 1000 'b' ^ "ab"))
+(* negative tests *)
+let () = assert (not (recognize a ""))
+let () = assert (not (recognize a "a"))
+let () = assert (not (recognize a "b"))
+let () = assert (not (recognize a "ba"))
+let () = assert (not (recognize a "aba"))
+let () = assert (not (recognize a "abababaaba"))
+(* test with a regular expression characterizing an even number of b’s *)
+let r = Star (Union (Star (Character ('a', 1)),
+                     Concat (Character ('b', 1),
+                             Concat (Star (Character ('a',2)),
+                                     Character ('b', 2)))))
+let a = make_dfa r
+let () = save_autom "autom2.dot" a
+(* positive tests *)
+let () = assert (recognize a "")
+let () = assert (recognize a "bb")
+let () = assert (recognize a "aaa")
+let () = assert (recognize a "aaabbaaababaaa")
+let () = assert (recognize a "bbbbbbbbbbbbbb")
+let () = assert (recognize a "bbbbabbbbabbbabbb")
+(* negative tests *)
+let () = assert (not (recognize a "b"))
+let () = assert (not (recognize a "ba"))
+let () = assert (not (recognize a "ab"))
+let () = assert (not (recognize a "aaabbaaaaabaaa"))
+let () = assert (not (recognize a "bbbbbbbbbbbbb"))
+let () = assert (not (recognize a "bbbbabbbbabbbabbbb"))
+let () = print_endline "Exercise 5 passed."
