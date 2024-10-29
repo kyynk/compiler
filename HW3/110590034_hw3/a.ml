@@ -8,7 +8,7 @@ let next_char b =
 
 let rec state0 b =
   match next_char b with
-  | _ -> failwith "lexical error"  (* actually not com this line , i don't know why need state0 *)
+  | _ -> failwith "lexical error"  (* actually not come this line , i don't know why need state0 *)
 
 and state1 b =
   b.last <- b.current;
