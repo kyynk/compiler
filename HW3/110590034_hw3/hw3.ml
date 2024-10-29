@@ -121,6 +121,59 @@ let recognize (a : autom) (word : string) : bool =
   in
   aux a.start 0
 
+(* Exercise 6 *)
+type buffer = { text: string; mutable current: int; mutable last: int }
+
+let next_char b =
+  if b.current = String.length b.text then raise End_of_file;
+  let c = b.text.[b.current] in
+  b.current <- b.current + 1;
+  c
+
+let generate (filename : string) (a : autom) : unit =
+  (* Assign a unique number to each state *)
+  let state_numbers = ref Smap.empty in
+  let counter = ref 0 in
+  let get_state_number state =
+    match Smap.find_opt state !state_numbers with
+    | Some n -> n
+    | None ->
+        let n = !counter in
+        counter := n + 1;
+        state_numbers := Smap.add state n !state_numbers;
+        n
+  in
+
+  let oc = open_out filename in
+  let fmt = Format.formatter_of_out_channel oc in
+
+  (* Write the type buffer and next_char function at the top *)
+  Format.fprintf fmt "type buffer = { text: string; mutable current: int; mutable last: int }@\n@\n";
+  Format.fprintf fmt "let next_char b =@\n";
+  Format.fprintf fmt "  if b.current = String.length b.text then raise End_of_file;@\n";
+  Format.fprintf fmt "  let c = b.text.[b.current] in@\n";
+  Format.fprintf fmt "  b.current <- b.current + 1;@\n";
+  Format.fprintf fmt "  c@\n@\n";
+
+  (* Write the state function for each state *)
+  Smap.iter (fun state transitions ->
+    let state_num = get_state_number state in
+    if state_num == 0 then Format.fprintf fmt "let rec state%d b =@\n" state_num
+    else Format.fprintf fmt "and state%d b =@\n" state_num;
+    if is_accepting_state state then Format.fprintf fmt "  b.last <- b.current;@\n";
+    Format.fprintf fmt "  match next_char b with@\n";
+    Cmap.iter (fun c next_state ->
+      Format.fprintf fmt "  | '%c' -> state%d b@\n" c (get_state_number next_state)
+    ) transitions;
+    Format.fprintf fmt "  | _ -> failwith \"lexical error\"@\n";
+    Format.fprintf fmt "@\n"
+  ) a.trans;
+
+  (* Define the start function to begin the lexical analysis *)
+  Format.fprintf fmt "let start b = state%d b@\n" (get_state_number a.start);
+
+  close_out oc;
+  print_endline ("Generate file " ^ filename)
 
 
 (* Exercise 1 Test *)
@@ -234,3 +287,10 @@ let () = assert (not (recognize a "aaabbaaaaabaaa"))
 let () = assert (not (recognize a "bbbbbbbbbbbbb"))
 let () = assert (not (recognize a "bbbbabbbbabbbabbbb"))
 let () = print_endline "Exercise 5 passed."
+
+(* Exercise 6 Test *)
+let r3 = Concat (Star (Character ('a', 1)), Character ('b', 1))
+let a = make_dfa r3
+let () = save_autom "autom3.dot" a
+let () = generate "a.ml" a
+let () = print_endline "Exercise 6."
