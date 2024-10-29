@@ -160,13 +160,19 @@ let generate (filename : string) (a : autom) : unit =
     let state_num = get_state_number state in
     if state_num == 0 then Format.fprintf fmt "let rec state%d b =@\n" state_num
     else Format.fprintf fmt "and state%d b =@\n" state_num;
-    if is_accepting_state state then Format.fprintf fmt "  b.last <- b.current;@\n";
-    Format.fprintf fmt "  match next_char b with@\n";
-    Cmap.iter (fun c next_state ->
-      Format.fprintf fmt "  | '%c' -> state%d b@\n" c (get_state_number next_state)
-    ) transitions;
-    Format.fprintf fmt "  | _ -> failwith \"lexical error\"@\n";
-    Format.fprintf fmt "@\n"
+    if is_accepting_state state then (
+      Format.fprintf fmt "  b.last <- b.current;@\n";
+      Format.fprintf fmt "  failwith \"found token\"@\n@\n";)
+    else (
+      Format.fprintf fmt "  match next_char b with@\n";
+      Cmap.iter (fun c next_state ->
+        Format.fprintf fmt "  | '%c' -> state%d b@\n" c (get_state_number next_state)
+      ) transitions;
+      Format.fprintf fmt "  | _ -> failwith \"lexical error\"";
+      if state_num == 0 then Format.fprintf fmt "  (* actually not com this line , i don't know why need state0 *)@\n"
+      else Format.fprintf fmt "@\n";
+      Format.fprintf fmt "@\n"
+    )
   ) a.trans;
 
   (* Define the start function to begin the lexical analysis *)

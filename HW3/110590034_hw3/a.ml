@@ -8,13 +8,11 @@ let next_char b =
 
 let rec state0 b =
   match next_char b with
-  | _ -> failwith "lexical error"
+  | _ -> failwith "lexical error"  (* actually not com this line , i don't know why need state0 *)
 
 and state1 b =
   b.last <- b.current;
-  match next_char b with
-  | '#' -> state0 b
-  | _ -> failwith "lexical error"
+  failwith "found token"
 
 and state2 b =
   match next_char b with
