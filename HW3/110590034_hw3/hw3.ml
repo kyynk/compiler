@@ -169,7 +169,7 @@ let generate (filename : string) (a : autom) : unit =
         Format.fprintf fmt "  | '%c' -> state%d b@\n" c (get_state_number next_state)
       ) transitions;
       Format.fprintf fmt "  | _ -> failwith \"lexical error\"";
-      if state_num == 0 then Format.fprintf fmt "  (* actually not com this line , i don't know why need state0 *)@\n"
+      if state_num == 0 then Format.fprintf fmt "  (* actually not come this line , i don't know why need state0 *)@\n"
       else Format.fprintf fmt "@\n";
       Format.fprintf fmt "@\n"
     )
