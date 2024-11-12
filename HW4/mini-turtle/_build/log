@@ -1,0 +1,17 @@
+# dune exec ./miniturtle.exe test.logo
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Shared cache location: /home/kyynk/.cache/dune/db
+# Workspace root:
+# /mnt/c/Users/kyynk/OneDrive/Desktop/113-1/compiler/HW4/mini-turtle
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /home/kyynk/.opam/default/bin/ocamlc.opt -config > /tmp/dune_7e6255_output
