@@ -1,0 +1,3 @@
+[submodule "final/mini-python"]
+	path = final/mini-python
+	url = https://github.com/kyynk/mini-python.git
