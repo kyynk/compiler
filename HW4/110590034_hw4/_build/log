@@ -1,4 +1,4 @@
-# dune build
+# dune exec ./miniturtle.exe test.logo
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/kyynk/.cache/dune/db
@@ -14,30 +14,4 @@
 #  ; build_dir = In_build_dir "default"
 #  ; instrument_with = []
 #  }
-$ /home/kyynk/.opam/default/bin/ocamlc.opt -config > /tmp/dune_a18555_output
-$ (cd _build/default && /home/kyynk/.opam/default/bin/menhir --explain --dump parser.mly --base parser --infer-write-query parser__mock.ml.mock)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamllex -q -o lexer.ml lexer.mll)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl parser__mock.ml.mock) > _build/default/.miniturtle.eobjs/parser__mock.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl miniturtle.ml) > _build/default/.miniturtle.eobjs/miniturtle.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl ast.ml) > _build/default/.miniturtle.eobjs/ast.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl interp.ml) > _build/default/.miniturtle.eobjs/interp.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl lexer.ml) > _build/default/.miniturtle.eobjs/lexer.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -intf turtle.mli) > _build/default/.miniturtle.eobjs/turtle.intf.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/turtle.cmi -c -intf turtle.mli)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/ast.cmo -c -impl ast.ml)
-$ (cd _build/.sandbox/555aec601c04c93f2e18fca048dec3f2/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -short-paths -i -impl parser__mock.ml.mock) > _build/.sandbox/555aec601c04c93f2e18fca048dec3f2/default/parser__mock.mli.inferred
-$ (cd _build/default && /home/kyynk/.opam/default/bin/menhir --explain --dump parser.mly --base parser --infer-read-reply parser__mock.mli.inferred)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -intf parser.mli) > _build/default/.miniturtle.eobjs/parser.intf.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl turtle.ml) > _build/default/.miniturtle.eobjs/turtle.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamldep.opt -modules -impl parser.ml) > _build/default/.miniturtle.eobjs/parser.impl.d
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/parser.cmi -c -intf parser.mli)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/turtle.cmx -c -impl turtle.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/ast.cmx -c -impl ast.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/interp.cmo -c -impl interp.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/lexer.cmo -c -impl lexer.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/parser.cmx -c -impl parser.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/interp.cmx -c -impl interp.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/lexer.cmx -c -impl lexer.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlc.opt -g -bin-annot -bin-annot-occurrences -I .miniturtle.eobjs/byte -I /home/kyynk/.opam/default/lib/graphics -no-alias-deps -opaque -o .miniturtle.eobjs/byte/miniturtle.cmo -c -impl miniturtle.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -I .miniturtle.eobjs/byte -I .miniturtle.eobjs/native -I /home/kyynk/.opam/default/lib/graphics -intf-suffix .ml -no-alias-deps -opaque -o .miniturtle.eobjs/native/miniturtle.cmx -c -impl miniturtle.ml)
-$ (cd _build/default && /home/kyynk/.opam/default/bin/ocamlopt.opt -g -o miniturtle.exe /home/kyynk/.opam/default/lib/graphics/graphics.cmxa -I /home/kyynk/.opam/default/lib/graphics .miniturtle.eobjs/native/turtle.cmx .miniturtle.eobjs/native/ast.cmx .miniturtle.eobjs/native/interp.cmx .miniturtle.eobjs/native/parser.cmx .miniturtle.eobjs/native/lexer.cmx .miniturtle.eobjs/native/miniturtle.cmx)
+$ /home/kyynk/.opam/default/bin/ocamlc.opt -config > /tmp/dune_3dd678_output

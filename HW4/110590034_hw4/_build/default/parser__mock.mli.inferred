@@ -1,4 +1,39 @@
-type token = EOF
+type token =
+    TURNRIGHT
+  | TURNLEFT
+  | TIMES
+  | RPAREN
+  | REPEAT
+  | RBRACE
+  | PLUS
+  | PENUP
+  | PENDOWN
+  | MINUS
+  | LPAREN
+  | LBRACE
+  | INT of int
+  | IF
+  | IDENT of string
+  | FORWARD
+  | EOF
+  | ELSE
+  | DIV
+  | DEF
+  | COMMA
+  | COLOR_WHITE
+  | COLOR_RED
+  | COLOR_GREEN
+  | COLOR_BLUE
+  | COLOR_BLACK
+  | COLOR
 val menhir_begin_marker : int
+val xv_stmt_list : Ast.stmt list
+val xv_stmt : Ast.stmt
 val xv_prog : Ast.program
+val xv_param_list : string list
+val xv_expr_list : Ast.expr list
+val xv_expr : Ast.expr
+val xv_def_list : Ast.def list
+val xv_def : Ast.def
+val xv_color : Turtle.color
 val menhir_end_marker : int
