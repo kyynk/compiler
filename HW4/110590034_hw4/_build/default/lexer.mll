@@ -54,7 +54,7 @@ rule token = parse
   (* eof *)
   | eof                 { EOF }
   (* other characters are illegal *)
-  | _                   { raise (Lexing_error "illegal character") }
+  (* | _                   { raise (Lexing_error "illegal character") } *)
 
 and comment = parse
   | "*)"                { token lexbuf } (* end of multi-line comment *)

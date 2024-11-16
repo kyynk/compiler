@@ -3,7 +3,7 @@
 
 %{
   open Ast
-
+  open Turtle
 %}
 
 /* Declaration of tokens */
@@ -20,6 +20,8 @@
 /* Priorities and associativity of tokens */
 %left PLUS MINUS
 %left TIMES DIV
+%nonassoc IF
+%nonassoc ELSE
 %nonassoc UMINUS  (* Unary minus *)
 /* To be completed */
 
@@ -34,49 +36,29 @@
 /* Production rules of the grammar */
 
 prog:
-  def_list stmt_list EOF
-    { { defs = $1; main = Sblock $2 } }
-;
-
-def_list:
-  | /* empty */   { [] }
-  | def def_list  { $1 :: $2 }
+  def_list=list(def) stmt_list=list(stmt) EOF
+    { { defs = def_list; main = Sblock stmt_list } }
 ;
 
 def:
-  | DEF IDENT LPAREN param_list RPAREN stmt_list
-    { { name = $2; formals = $4; body = Sblock $6 } }
-;
-
-param_list:
-  | /* empty */             { [] }
-  | IDENT                   { [$1] }
-  | IDENT COMMA param_list  { $1 :: $3 }
-;
-
-stmt_list:
-  | /* empty */     { [] }
-  | stmt stmt_list  { $1 :: $2 }
+  | DEF n=IDENT LPAREN params=separated_list(COMMA, IDENT) RPAREN s=stmt
+    { { name = n; formals = params; body = Sblock [s] } }
 ;
 
 stmt:
-  | PENUP                          { Spenup }
-  | PENDOWN                        { Spendown }
-  | FORWARD expr                   { Sforward $2 }
-  | TURNLEFT expr                  { Sturn $2 }
-  | TURNRIGHT expr                 { Sturn (Ebinop (Sub, Econst 0, $2)) }
-  | COLOR color                    { Scolor $2 }
-  | IDENT LPAREN expr_list RPAREN  { Scall ($1, $3) }
-  | IF expr stmt                   { Sif ($2, $3, Sblock []) }
-  | IF expr stmt ELSE stmt         { Sif ($2, $3, $5) }
-  | REPEAT expr stmt               { Srepeat ($2, $3) }
-  | LBRACE stmt_list RBRACE        { Sblock $2 }
-;
-
-expr_list:
-  | /* empty */           { [] }
-  | expr                  { [$1] }
-  | expr COMMA expr_list  { $1 :: $3 }
+  | PENUP                   { Spenup }
+  | PENDOWN                 { Spendown }
+  | FORWARD expr            { Sforward $2 }
+  | TURNLEFT expr           { Sturn $2 }
+  | TURNRIGHT expr          { Sturn (Ebinop (Sub, Econst 0, $2)) }
+  | COLOR color             { Scolor $2 }
+  | func=IDENT LPAREN expr_list=separated_list(COMMA, expr) RPAREN
+    { Scall (func, expr_list) }
+  | IF expr stmt            { Sif ($2, $3, Sblock []) }
+  | IF expr stmt ELSE stmt  { Sif ($2, $3, $5) }
+  | REPEAT expr stmt        { Srepeat ($2, $3) }
+  | LBRACE stmt_list=list(stmt) RBRACE
+    { Sblock stmt_list }
 ;
 
 expr:

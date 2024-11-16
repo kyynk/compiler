@@ -16,63 +16,22 @@ color red
 forward 100
 *)
 
-(* // Exercise 4
-repeat 4 {
+// Exercise 4
+(*repeat 4 {
     forward 100
     turnleft 90
-}
-*)
-
-
-(* Hilbert curve
-     cf https://en.wikipedia.org/wiki/Hilbert_curve
-*)
-
-def l(n) {
-  if n {
-    turnright 90
-    r(n-1)
-    forward 8
-    turnleft 90
-    l(n-1)
-    forward 8
-    l(n-1)
-    turnleft 90
-    forward 8
-    r(n-1)
-    turnright 90
-  }
-}
-
-
-(*def r(n) {
-  if n {
-    turnleft 90
-    l(n-1)
-    forward 8
-    turnright 90
-    r(n-1)
-    forward 8
-    r(n-1)
-    turnright 90
-    forward 8
-    l(n-1)
-    turnleft 90
-  }
 }*)
 
-forward 30
-//l(6)
-forward 20
-penup
-turnleft 90
-forward -250
-pendown
-turnleft 90
-forward 10
-(*
-forward -250
-pendown
-l(6)
-forward -20
-*)
+
+def abx(n) {
+  forward 100
+  turnleft 90
+  forward 100
+  turnleft 90
+  forward 100
+  turnleft 90
+  forward 100
+  turnleft 90
+}
+// forward 100
+abx(1)

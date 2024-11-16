@@ -1,4 +1,4 @@
-# dune exec ./miniturtle.exe test.logo
+# dune exec ./miniturtle.exe tests/zigzag.logo
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/kyynk/.cache/dune/db
@@ -14,4 +14,4 @@
 #  ; build_dir = In_build_dir "default"
 #  ; instrument_with = []
 #  }
-$ /home/kyynk/.opam/default/bin/ocamlc.opt -config > /tmp/dune_3dd678_output
+$ /home/kyynk/.opam/default/bin/ocamlc.opt -config > /tmp/dune_47dfd6_output
